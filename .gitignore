@@ -1,0 +1,11 @@
+# IDE files
+.idea
+
+# Package management stuff
+node_modules
+package-json.lock
+yarn.lock
+npm-debug.log
+
+# Artifacts
+dist
