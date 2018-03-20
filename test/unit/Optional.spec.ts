@@ -239,6 +239,34 @@ describe('/Optional.ts', () => {
             });
         });
 
+        describe('#rescue()', () => {
+            it('creates optional with new identity from empty', () => {
+                const value = 12;
+                expect(Optional.empty().rescue(value).get()).to.eq(value);
+            });
+
+            it('does nothing on optional with identity', () => {
+                const identity = 12;
+                expect(Optional.of(identity).rescue(24).get()).to.eq(identity);
+            });
+        });
+
+        describe('#rescueWith()', () => {
+            it('creates optional with new identity from empty', () => {
+                const value = 12;
+                const producer = Sinon.stub().returns(value);
+                expect(Optional.empty().rescueWith(producer).get()).to.eq(value);
+                expect(producer.callCount).to.eq(1);
+            });
+
+            it('does nothing on optional with identity', () => {
+                const identity = 12;
+                const producer = Sinon.stub().returns(24);
+                expect(Optional.of(identity).rescueWith(producer).get()).to.eq(identity);
+                expect(producer.callCount).to.eq(0);
+            });
+        });
+
         describe('#equals()', () => {
             it('returns true for same optional', () => {
                 const optional = Optional.empty();
