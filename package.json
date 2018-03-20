@@ -10,8 +10,10 @@
     "dist"
   ],
   "scripts": {
+    "compile": "tsc",
     "test": "nyc mocha",
-    "report": "allure generate -o report/allure -- metadata/allure"
+    "report": "allure generate -o report/allure -- metadata/allure",
+    "coverage:publish": "cat report/coverage/lcov.info | coveralls"
   },
   "devDependencies": {
     "@types/chai": "^4.1.2",
@@ -19,6 +21,7 @@
     "@types/sinon": "^4.3.0",
     "allure-commandline": "^2.5.0",
     "chai": "^4.1.2",
+    "coveralls": "^3.0.0",
     "mocha": "^5.0.4",
     "mocha-allure-reporter": "^1.3.2",
     "mocha-junit-reporter": "^1.17.0",
