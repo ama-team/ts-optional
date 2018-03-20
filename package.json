@@ -10,7 +10,8 @@
     "dist"
   ],
   "scripts": {
-    "test": "nyc mocha"
+    "test": "nyc mocha",
+    "report": "allure generate -o report/allure -- metadata/allure"
   },
   "devDependencies": {
     "@types/chai": "^4.1.2",
