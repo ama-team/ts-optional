@@ -14,6 +14,9 @@ but doesn't follow it precisely. If you need exact port, there is
 [typescript-optional](https://www.npmjs.com/package/typescript-optional) 
 implementation.
 
+**Please note that this project follows semantic versioning approach and
+may change API in between pre-1.0 minor releases.**
+
 ## Installation
 
 ```bash
@@ -71,7 +74,7 @@ Optional.of(value); // throws error if value is null / undefined
 Optional.ofNullable(value);
 ```
 
-Optional has two proeprties and several methods to interact with current
+Optional has two properties and several methods to interact with current
 state:
 
 ```typescript
@@ -83,6 +86,14 @@ optional.ifPresent(identity => {});
 optional.ifEmpty(() => {});
 optional.peek(identity => {}); // will substitute missing identity with null
 optional.on(identity => {}, () => {}); // will trigger one of those depending on identity presence 
+```
+
+You can also suggest a value for optional, which will be used as 
+identity if optional is empty:
+
+```typescript
+optional.rescue(value);
+optional.rescueWith(() => value);
 ```
 
 There are also several ways to retrieve identity or substitute it with 

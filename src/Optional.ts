@@ -6,11 +6,11 @@ export class Optional<T> implements IOptional<T> {
     }
 
     public static ofNullable<T>(identity: T | null): Optional<T> {
-        return new Optional<T>(this.exists(identity) ? identity : null);
+        return new Optional<T>(Optional.exists(identity) ? identity : null);
     }
 
     public static of<T>(identity: T): Optional<T> {
-        if (!this.exists(identity)) {
+        if (!Optional.exists(identity)) {
             throw new TypeError('Provided value is invalid');
         }
         return new Optional<T>(identity);
@@ -78,6 +78,20 @@ export class Optional<T> implements IOptional<T> {
             throw new TypeError('Provided value is invalid');
         }
         return this.identity;
+    }
+
+    public rescue(value: T): Optional<T> {
+        if (this.identity !== null) {
+            return this;
+        }
+        return new Optional<T>(value);
+    }
+
+    public rescueWith(producer: () => T): Optional<T> {
+        if (this.identity !== null) {
+            return this;
+        }
+        return new Optional<T>(producer());
     }
 
     public orElse(fallback: T): T {
