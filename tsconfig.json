@@ -5,6 +5,10 @@
     "strict": true,
     "esModuleInterop": true,
     "rootDir": "src",
-    "outDir": "dist"
-  }
+    "outDir": "dist",
+    "experimentalDecorators": true
+  },
+  "exclude": [
+    "test"
+  ]
 }

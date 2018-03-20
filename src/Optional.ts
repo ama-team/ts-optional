@@ -5,7 +5,7 @@ export class Optional<T> implements IOptional<T> {
         return new Optional<T>(null);
     }
 
-    public static ofNullable<T>(identity: T): Optional<T> {
+    public static ofNullable<T>(identity: T | null): Optional<T> {
         return new Optional<T>(this.exists(identity) ? identity : null);
     }
 
@@ -34,25 +34,25 @@ export class Optional<T> implements IOptional<T> {
         return this.identity !== null;
     }
 
-    public map<V>(operation: (identity: T) => V | null): IOptional<V> {
+    public map<V>(operation: (identity: T) => V | null): Optional<V> {
         return new Optional(this.identity !== null ? operation(this.identity) : null);
     }
 
-    public flatMap<V>(operation: (identity: T) => IOptional<V>): IOptional<V> {
-        const product = this.identity !== null ? operation(this.identity).orElse(null) : null;
-        return new Optional(product);
+    public flatMap<V>(transformer: (identity: T) => IOptional<V>): Optional<V> {
+        const product = this.identity !== null ? transformer(this.identity).orElse(null) : null;
+        return Optional.ofNullable(product);
     }
 
-    public filter(predicate: (identity: T) => boolean): IOptional<T> {
+    public filter(predicate: (identity: T) => boolean): Optional<T> {
         const product = this.identity !== null && predicate(this.identity) ? this.identity : null;
         return new Optional(product);
     }
 
-    public ifPresent(consumer: (identity: T) => void): IOptional<T> {
+    public ifPresent(consumer: (identity: T) => void): Optional<T> {
         if (this.identity !== null) {
             consumer(this.identity);
         }
-        return this as IOptional<T>;
+        return this;
     }
 
     public ifEmpty(action: () => void): IOptional<T> {
@@ -62,18 +62,18 @@ export class Optional<T> implements IOptional<T> {
         return this as IOptional<T>;
     }
 
-    public peek(consumer: (identity: (T | null)) => void): IOptional<T> {
+    public peek(consumer: (identity: (T | null)) => void): Optional<T> {
         consumer(this.identity);
-        return this as IOptional<T>;
+        return this;
     }
 
-    public on(present: (identity: T) => void, empty: () => void): IOptional<T> {
+    public on(present: (identity: T) => void, empty: () => void): Optional<T> {
         if (this.identity === null) {
             empty();
         } else {
             present(this.identity);
         }
-        return this as IOptional<T>;
+        return this;
     }
 
     public get(): T {
