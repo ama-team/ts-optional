@@ -35,6 +35,13 @@ export class Pipeline<I, O> implements IPipeline<I, O> {
     }
 
     public append<V>(pipeline: IPipeline<O, V>): IPipeline<I, V> {
-        return new Pipeline(...this.operations, (optional) => optional.flatMap(pipeline.apply));
+        const operation: IOptionalOperation<O, V> = (optional) => {
+            return optional.flatMap((identity) => pipeline.apply(identity));
+        };
+        return new Pipeline(...this.operations, operation);
+    }
+
+    public transform(input: I): O | null {
+        return this.apply(input).orElse(null);
     }
 }

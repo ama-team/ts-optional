@@ -20,18 +20,15 @@ export class Optional<T> implements IOptional<T> {
         return identity !== null && typeof identity !== 'undefined';
     }
 
+    public readonly empty: boolean;
+    public readonly present: boolean;
+
     private identity: T | null;
 
     protected constructor(identity: T | null) {
         this.identity = identity;
-    }
-
-    public get empty(): boolean {
-        return this.identity === null;
-    }
-
-    public get present() {
-        return this.identity !== null;
+        this.empty = identity === null;
+        this.present = identity !== null;
     }
 
     public map<V>(operation: (identity: T) => V | null): Optional<V> {
@@ -96,5 +93,18 @@ export class Optional<T> implements IOptional<T> {
             return this.identity;
         }
         throw producer();
+    }
+
+    public equals(other: IOptional<any>) {
+        if (other === this || (other.empty && this.empty)) {
+            return true;
+        }
+        return other.present && this.present && other.get() === this.identity;
+    }
+
+    public toString() {
+        const exists = Optional.exists(this.identity);
+        const representation = exists ? (this.identity as T).toString() : 'null';
+        return `Optional<${representation}>`;
     }
 }
