@@ -1,6 +1,6 @@
 # @ama-team/optional
 
-[![npm](https://img.shields.io/npm/v/@ama-team/ts-optional.svg?style=flat-square)](https://www.npmjs.com/package/@ama-team/ts-optional)
+[![npm](https://img.shields.io/npm/v/@ama-team/optional.svg?style=flat-square)](https://www.npmjs.com/package/@ama-team/optional)
 [![CircleCI/master](https://img.shields.io/circleci/project/github/ama-team/ts-optional/master.svg?style=flat-square)](https://circleci.com/gh/ama-team/ts-optional/master)
 [![Coveralls/master](https://img.shields.io/coveralls/github/ama-team/ts-optional/master.svg?style=flat-square)](https://coveralls.io/github/ama-team/ts-optional?branch=master)
 [![Code Climate](https://img.shields.io/codeclimate/github/ama-team/ts-optional.svg?style=flat-square)](https://codeclimate.com/github/ama-team/ts-optional)
