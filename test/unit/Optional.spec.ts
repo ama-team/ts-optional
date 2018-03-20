@@ -1,6 +1,7 @@
-import {Optional} from '../src';
+import {Optional} from '../../src';
 import {expect} from 'chai';
 import * as Sinon from 'sinon';
+import {IOptional} from '../../src/IOptional';
 
 describe('/Optional.ts', () => {
     describe('.Optional', () => {
@@ -235,6 +236,49 @@ describe('/Optional.ts', () => {
                 const filter = Sinon.stub().returns(true);
                 expect(Optional.of(identity).filter(filter).get()).to.eq(identity);
                 expect(filter.callCount).to.eq(1);
+            });
+        });
+
+        describe('#equals()', () => {
+            it('returns true for same optional', () => {
+                const optional = Optional.empty();
+                expect(optional.equals(optional)).to.eq(true);
+            });
+
+            it('returns true for two empty optionals', () => {
+                const other = {empty: true} as IOptional<any>;
+                expect(Optional.empty().equals(other)).to.eq(true);
+            });
+
+            it('returns true for optionals with same content', () => {
+                const value = 12;
+                const other = {empty: false, present: true, get: () => value} as IOptional<number>;
+                expect(Optional.of(value).equals(other)).to.eq(true);
+            });
+
+            it('returns false for optionals with different content', () => {
+                const other = {empty: false, present: true, get: () => 12} as IOptional<number>;
+                expect(Optional.of(13).equals(other)).to.eq(false);
+            });
+
+            it('returns false if has identity but other is empty', () => {
+                const other = {empty: true, present: false} as IOptional<number>;
+                expect(Optional.of(12).equals(other)).to.eq(false);
+            });
+
+            it('returns false if is empty but other has identity', () => {
+                const other = {empty: false, present: true, get: () => 12} as IOptional<number>;
+                expect(Optional.empty().equals(other)).to.eq(false);
+            });
+        });
+
+        describe('#toString()', () => {
+            it('works for string', () => {
+                expect(Optional.of('value').toString()).to.eq('Optional<value>');
+            });
+
+            it('works for missing identity', () => {
+                expect(Optional.empty().toString()).to.eq('Optional<null>');
             });
         });
     });

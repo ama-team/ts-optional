@@ -6,4 +6,5 @@ export interface IPipeline<I, O> {
     filter(predicate: (identity: O) => boolean): IPipeline<I, O>;
     append<V>(pipeline: IPipeline<O, V>): IPipeline<I, V>;
     apply(input: I): IOptional<O>;
+    transform(input: I): O | null;
 }
