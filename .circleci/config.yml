@@ -11,10 +11,9 @@ parameters:
 version: 2
 workflows:
   version: 2
-  build:
+  default:
     jobs:
-      - build:
-          context: npm
+      - build: {}
 jobs:
   build:
     docker:
