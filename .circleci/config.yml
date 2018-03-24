@@ -14,6 +14,15 @@ workflows:
   default:
     jobs:
       - build: {}
+      - publish:
+          context: npm
+          requires:
+            - build
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^\d+\.\d+\.\d+$/
 jobs:
   build:
     docker:
@@ -74,3 +83,31 @@ jobs:
       - store_test_results:
           path: report
           when: always
+  publish:
+    docker:
+      - image: *docker_image
+    working_directory: /tmp/workspace
+    steps:
+      - checkout
+      - restore_cache:
+          key: *yarn_cache_key
+      - run:
+          name: 'Setup: Dependency Installation'
+          command: yarn
+      - save_cache:
+          key: *yarn_cache_key
+          paths:
+            - node_modules
+      - run:
+          name: Lint
+          command: npx tslint --project .
+          when: always
+      - run:
+          name: Compilation
+          command: yarn run compile
+      - run:
+          name: Publishing
+          command: |
+            echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+            npm publish --access public
+
