@@ -6,6 +6,7 @@ node_modules
 package-json.lock
 yarn.lock
 npm-debug.log
+yarn-error.log
 
 # Artifacts
 dist

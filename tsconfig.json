@@ -9,6 +9,7 @@
     "experimentalDecorators": true
   },
   "exclude": [
-    "test"
+    "test",
+    "dist"
   ]
 }
