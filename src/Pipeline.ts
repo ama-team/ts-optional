@@ -2,7 +2,7 @@ import {IOptional} from './IOptional';
 import {IPipeline} from './IPipeline';
 import {Optional} from './Optional';
 
-type IOptionalOperation<T, V> = (input: IOptional<T>) => IOptional<V>;
+export type IOptionalOperation<T, V> = (input: IOptional<T>) => IOptional<V>;
 
 export class Pipeline<I, O> implements IPipeline<I, O> {
     public static create<T>(): Pipeline<T, T> {

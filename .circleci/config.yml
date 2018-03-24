@@ -66,6 +66,9 @@ jobs:
             export JAVA_HOME="$(jabba which $JAVA_VERSION)"
             npm run report
       - store_artifacts:
+          path: dist
+          when: always
+      - store_artifacts:
           path: report
           when: always
       - store_test_results:
