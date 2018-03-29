@@ -32,7 +32,10 @@ export class Optional<T> implements IOptional<T> {
     }
 
     public map<V>(operation: (identity: T) => V | null): Optional<V> {
-        return new Optional(this.identity !== null ? operation(this.identity) : null);
+        if (this.identity === null) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(operation(this.identity));
     }
 
     public flatMap<V>(transformer: (identity: T) => IOptional<V>): Optional<V> {
@@ -52,11 +55,11 @@ export class Optional<T> implements IOptional<T> {
         return this;
     }
 
-    public ifEmpty(action: () => void): IOptional<T> {
+    public ifEmpty(action: () => void): Optional<T> {
         if (this.identity === null) {
             action();
         }
-        return this as IOptional<T>;
+        return this;
     }
 
     public peek(consumer: (identity: (T | null)) => void): Optional<T> {
@@ -84,14 +87,14 @@ export class Optional<T> implements IOptional<T> {
         if (this.identity !== null) {
             return this;
         }
-        return new Optional<T>(value);
+        return Optional.ofNullable(value);
     }
 
     public rescueWith(producer: () => T): Optional<T> {
         if (this.identity !== null) {
             return this;
         }
-        return new Optional<T>(producer());
+        return Optional.ofNullable(producer());
     }
 
     public orElse(fallback: T): T {

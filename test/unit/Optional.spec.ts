@@ -198,6 +198,14 @@ describe('/Optional.ts', () => {
                 Optional.empty().map(transformer);
                 expect(transformer.callCount).to.eq(0);
             });
+
+            it('handles undefined result correctly', () => {
+                const transformer = Sinon.stub().returns(undefined);
+                const inspected = Optional.of(42).map(transformer);
+                expect(inspected.empty).to.eq(true);
+                expect(inspected.present).to.eq(false);
+                expect(() => inspected.get()).to.throw(TypeError);
+            });
         });
 
         describe('#flatMap', () => {
